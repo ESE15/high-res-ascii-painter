@@ -2,6 +2,11 @@
 
 Slack-Optimized ASCII Art Generator
 
+## 설치
+```bash
+pip install -r requirements.txt
+```
+
 ## 사용법
 
 ```bash
