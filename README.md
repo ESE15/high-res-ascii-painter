@@ -1,2 +1,51 @@
 # high-res-ascii-painter
-아스키아트 장난질용
+
+Slack-Optimized ASCII Art Generator
+
+## 사용법
+
+```bash
+python painter.py <image_file> [width] [options]
+python painter.py -w <image_url> [width] [options]
+```
+
+## 인수
+
+- `image_file`: 입력 이미지 파일 경로
+- `image_url`: 이미지 URL (웹 옵션과 함께 사용)
+- `width`: ASCII 아트 너비 (문자 단위, 기본값: 70)
+
+## 옵션
+
+- `-w, --web`: 로컬 파일 대신 URL에서 이미지 다운로드
+- `--color, -c`: 컬러 출력 활성화 (Slack에서는 권장하지 않음)
+- `--trim, -t`: 배경 전용 행과 열을 제거하여 컴팩트한 출력
+- `--help, -h`: 도움말 메시지 표시
+
+## Slack 사용 팁
+
+- Slack 코드 블록에서 최적의 결과를 위해 너비 60-80 사용
+- 출력을 복사하여 코드 블록(```)을 사용해 Slack에 붙여넣기
+- Slack에 붙여넣을 때는 컬러 모드 사용 금지
+
+## 웹 이미지 주의사항
+
+- Slack 파일 URL은 인증이 필요하므로 직접 작동하지 않음
+- 공개 이미지 호스팅 서비스 사용 (imgur, picsum.photos 등)
+- 일부 웹사이트에서는 자동화된 요청을 차단할 수 있음
+
+## 사용 예시
+
+```bash
+# 로컬 이미지 파일 사용
+python painter.py image.jpg 70
+
+# 웹 이미지 URL 사용
+python painter.py -w https://picsum.photos/400/300 60
+
+# 웹 이미지와 트림 옵션
+python painter.py --web https://imgur.com/image.jpg --trim
+
+# 모든 옵션 사용
+python painter.py image.jpg 80 --trim --color
+```
