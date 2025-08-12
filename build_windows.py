@@ -14,6 +14,15 @@ def build_windows_executable():
     
     print("Building Windows portable executable...")
     
+    # 플랫폼 확인 및 경고
+    import platform
+    current_os = platform.system()
+    if current_os != "Windows":
+        print(f"⚠️  WARNING: Building on {current_os} for Windows target")
+        print("⚠️  Cross-compilation may not work properly!")
+        print("⚠️  For best results, run this build on Windows")
+        print()
+    
     # 빌드 디렉토리 정리
     build_dirs = ['build', 'dist']
     for dir_name in build_dirs:

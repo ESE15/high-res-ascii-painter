@@ -19,16 +19,29 @@ pip install -e .
 ```
 
 ### Windows 포터블 실행 파일 빌드
-```bash
+
+⚠️ **중요**: Windows용 실행 파일은 반드시 Windows 환경에서 빌드해야 합니다!
+
+#### Windows에서 빌드 (권장):
+```powershell
 # 개발 의존성 포함 설치
 uv sync --dev
 
 # Windows 실행 파일 빌드
 uv run python build_windows.py
 
-# 또는 배치 파일 사용 (Windows에서)
-build_windows.bat
+# 또는 배치 파일 사용
+.\build_windows.bat
 ```
+
+#### Linux/WSL에서 시도 (작동하지 않을 수 있음):
+```bash
+# 경고와 함께 빌드 시도
+uv sync --dev
+uv run python build_windows.py
+```
+
+자세한 빌드 가이드는 [WINDOWS_BUILD_GUIDE.md](WINDOWS_BUILD_GUIDE.md)를 참조하세요.
 
 ## 사용법
 
@@ -283,7 +296,19 @@ ascii-painter.exe --clip 80 --trim -a
 
 ### 빌드 요구사항
 
+- **Windows 10/11 환경** (크로스 컴파일 불가)
 - Python 3.10+
 - uv 패키지 매니저
 - PyInstaller (자동 설치됨)
 - 충분한 디스크 공간 (빌드 과정에서 임시 파일 생성)
+
+### 문제 해결
+
+**"이 앱은 PC에서 실행할 수 없습니다" 오류가 발생하는 경우:**
+1. Linux/WSL에서 빌드한 실행 파일을 사용했을 가능성
+2. Windows 환경에서 다시 빌드 필요
+3. 자세한 해결 방법은 [WINDOWS_BUILD_GUIDE.md](WINDOWS_BUILD_GUIDE.md) 참조
+
+**GitHub Actions를 통한 자동 빌드:**
+- 이 저장소를 GitHub에 푸시하면 자동으로 Windows 실행 파일이 빌드됩니다
+- Actions 탭에서 빌드된 아티팩트를 다운로드할 수 있습니다
