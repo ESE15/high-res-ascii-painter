@@ -33,6 +33,7 @@ jobs:
     
     - name: Build Windows executable
       run: |
+        $OutputEncoding = [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
         uv run python build_windows.py
     
     - name: Test executable

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Windows 포터블 실행 파일 빌드 스크립트
 """
@@ -9,6 +10,12 @@ import subprocess
 import shutil
 from pathlib import Path
 
+# Windows에서 UTF-8 출력 설정
+if sys.platform.startswith('win'):
+    import codecs
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.detach())
+
 def build_windows_executable():
     """PyInstaller를 사용하여 Windows 실행 파일을 빌드"""
     
@@ -18,9 +25,9 @@ def build_windows_executable():
     import platform
     current_os = platform.system()
     if current_os != "Windows":
-        print(f"⚠️  WARNING: Building on {current_os} for Windows target")
-        print("⚠️  Cross-compilation may not work properly!")
-        print("⚠️  For best results, run this build on Windows")
+        print(f"WARNING: Building on {current_os} for Windows target")
+        print("Cross-compilation may not work properly!")
+        print("For best results, run this build on Windows")
         print()
     
     # 빌드 디렉토리 정리
@@ -52,7 +59,7 @@ def build_windows_executable():
     try:
         # PyInstaller 실행
         result = subprocess.run(pyinstaller_cmd, check=True, capture_output=True, text=True)
-        print("✅ PyInstaller build successful!")
+        print("PyInstaller build successful!")
         
         # 빌드 결과 확인 (Linux에서 빌드시 .exe 확장자가 없을 수 있음)
         exe_path = Path('dist/windows/ascii-painter.exe')
@@ -69,15 +76,15 @@ def build_windows_executable():
         
         if actual_exe_path and actual_exe_path.exists():
             file_size = actual_exe_path.stat().st_size / (1024 * 1024)  # MB 단위
-            print(f"✅ Executable created: {actual_exe_path}")
-            print(f"📦 File size: {file_size:.1f} MB")
+            print(f"Executable created: {actual_exe_path}")
+            print(f"File size: {file_size:.1f} MB")
             
             # README 파일 생성
             create_windows_readme()
             
             return True
         else:
-            print("❌ Executable not found after build")
+            print("ERROR: Executable not found after build")
             print("Available files in dist/windows:")
             dist_path = Path('dist/windows')
             if dist_path.exists():
@@ -86,7 +93,7 @@ def build_windows_executable():
             return False
             
     except subprocess.CalledProcessError as e:
-        print(f"❌ PyInstaller build failed:")
+        print("ERROR: PyInstaller build failed:")
         print(f"Error: {e.stderr}")
         return False
 
@@ -177,7 +184,7 @@ Just download and run from anywhere on your Windows system.
     with open(readme_path, 'w', encoding='utf-8') as f:
         f.write(readme_content)
     
-    print(f"✅ Windows README created: {readme_path}")
+    print(f"Windows README created: {readme_path}")
 
 def create_build_script():
     """빌드용 배치 파일 생성"""
@@ -186,13 +193,13 @@ echo Building ASCII Painter for Windows...
 python build_windows.py
 if %ERRORLEVEL% EQU 0 (
     echo.
-    echo ✅ Build completed successfully!
-    echo 📁 Check dist/windows/ folder for the executable
+    echo Build completed successfully!
+    echo Check dist/windows/ folder for the executable
     echo.
     pause
 ) else (
     echo.
-    echo ❌ Build failed!
+    echo Build failed!
     echo.
     pause
 )
@@ -201,10 +208,10 @@ if %ERRORLEVEL% EQU 0 (
     with open('build_windows.bat', 'w', encoding='utf-8') as f:
         f.write(batch_content)
     
-    print("✅ Windows build script created: build_windows.bat")
+    print("Windows build script created: build_windows.bat")
 
 if __name__ == "__main__":
-    print("🚀 ASCII Painter Windows Build Tool")
+    print("ASCII Painter Windows Build Tool")
     print("=" * 50)
     
     # 빌드 실행
@@ -214,12 +221,12 @@ if __name__ == "__main__":
     create_build_script()
     
     if success:
-        print("\n🎉 Build completed successfully!")
-        print("📁 Check dist/windows/ folder for:")
+        print("\nBuild completed successfully!")
+        print("Check dist/windows/ folder for:")
         print("   - ascii-painter.exe (main executable)")
         print("   - README.md (usage instructions)")
-        print("\n💡 You can also use build_windows.bat for future builds")
+        print("\nYou can also use build_windows.bat for future builds")
     else:
-        print("\n❌ Build failed. Check error messages above.")
+        print("\nBuild failed. Check error messages above.")
     
     print("\n" + "=" * 50)
