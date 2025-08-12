@@ -5,6 +5,7 @@ Utility functions for ASCII art generator
 import os
 import tempfile
 import subprocess
+import re
 from datetime import datetime
 from .config import DENSITY_STRING
 
@@ -17,6 +18,16 @@ def get_ansi_color(r, g, b):
 def reset_color():
     """Reset to default color"""
     return '\033[0m'
+
+
+def strip_ansi_codes(text):
+    """
+    Remove ANSI color codes from text
+    This is useful for clipboard copying when color mode is enabled
+    """
+    # ANSI escape sequence pattern
+    ansi_pattern = re.compile(r'\033\[[0-9;]*m')
+    return ansi_pattern.sub('', text)
 
 
 def save_clipboard_image():

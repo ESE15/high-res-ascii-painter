@@ -11,7 +11,7 @@ import os
 from .cli import ArgumentParser
 from .image_loader import load_image
 from .ascii_converter import ASCIIConverter
-from .utils import trim_ascii_art, save_clipboard_image, copy_to_clipboard
+from .utils import trim_ascii_art, save_clipboard_image, copy_to_clipboard, strip_ansi_codes
 
 
 def main():
@@ -58,7 +58,13 @@ def main():
         # Copy to clipboard if requested
         if args.auto_copy:
             ascii_text = '\n'.join(ascii_lines)
-            copy_to_clipboard(ascii_text)
+            # Remove ANSI color codes for clipboard (plain text for better compatibility)
+            if args.use_color:
+                clipboard_text = strip_ansi_codes(ascii_text)
+                print("Note: Color codes removed for clipboard compatibility")
+            else:
+                clipboard_text = ascii_text
+            copy_to_clipboard(clipboard_text)
             
     finally:
         # Clean up temporary file if we created one

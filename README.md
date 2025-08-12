@@ -115,6 +115,7 @@ ascii-painter.exe --clip [width] [options]
 ### 출력 (-a, --auto-copy)
 - WSL/Windows 환경에서만 작동 (PowerShell 필요)
 - ASCII 아트 결과를 자동으로 클립보드에 복사
+- 컬러 모드 사용 시 색상 코드는 자동으로 제거됨 (호환성 향상)
 - Slack에 바로 붙여넣기 가능 (코드 블록 ``` 사용)
 
 ## 출력 예시

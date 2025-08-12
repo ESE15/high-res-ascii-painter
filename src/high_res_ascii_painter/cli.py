@@ -39,6 +39,7 @@ def print_help():
     print("Clipboard Notes:")
     print("  - Requires WSL/Windows environment with PowerShell")
     print("  - Copy an image to clipboard before running with --clip")
+    print("  - Auto-copy (-a) removes color codes for better compatibility")
     print("  - Temporary files are automatically cleaned up")
     print()
     print("Examples:")
