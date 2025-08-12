@@ -73,9 +73,9 @@ jobs:
         python-version: '3.11'
     
     - name: Install uv
-      run: |
-        irm https://astral.sh/uv/install.ps1 | iex
-        echo "$env:USERPROFILE\.local\bin" >> $env:GITHUB_PATH
+      uses: astral-sh/setup-uv@v3
+      with:
+        version: "latest"
     
     - name: Install dependencies
       run: uv sync --dev
@@ -84,10 +84,11 @@ jobs:
       run: uv run python build_windows.py
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: ascii-painter-windows
+        name: ascii-painter-windows-x64
         path: dist/windows/
+        retention-days: 30
 ```
 
 ### 방법 3: Docker를 사용한 Windows 빌드
