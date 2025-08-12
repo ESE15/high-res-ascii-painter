@@ -67,6 +67,7 @@ ascii-painter <image_file> [width] [options]
 
 - `-w, --web`: 로컬 파일 대신 URL에서 이미지 다운로드
 - `--clip, -v`: 클립보드의 이미지를 사용 (WSL/Windows 환경 필요)
+- `-a, --auto-copy`: ASCII 아트 결과를 자동으로 클립보드에 복사
 - `--color, -c`: 컬러 출력 활성화 (Slack에서는 권장하지 않음)
 - `--trim, -t`: 배경 전용 행과 열을 제거하여 컴팩트한 출력
 - `--help, -h`: 도움말 메시지 표시
@@ -85,10 +86,16 @@ ascii-painter <image_file> [width] [options]
 
 ## 클립보드 기능 주의사항
 
+### 입력 (--clip)
 - WSL/Windows 환경에서만 작동 (PowerShell 필요)
 - 사용 전에 이미지를 클립보드에 복사해야 함
 - 임시 파일은 자동으로 정리됨
 - 스크린샷이나 복사된 이미지 모두 지원
+
+### 출력 (-a, --auto-copy)
+- WSL/Windows 환경에서만 작동 (PowerShell 필요)
+- ASCII 아트 결과를 자동으로 클립보드에 복사
+- Slack에 바로 붙여넣기 가능 (코드 블록 ``` 사용)
 
 ## 출력 예시
 
@@ -146,6 +153,12 @@ ascii-painter <image_file> [width] [options]
 # 클립보드 이미지 사용
 ./ascii-painter.sh --clip 80 --trim
 
+# 결과를 클립보드에 자동 복사
+./ascii-painter.sh image.jpg 70 -a --trim
+
+# 클립보드에서 입력받고 결과도 클립보드에 복사 (완전 자동화!)
+./ascii-painter.sh --clip 80 --trim -a
+
 # 웹 이미지와 트림 옵션
 ./ascii-painter.sh --web https://imgur.com/image.jpg --trim
 
@@ -163,6 +176,12 @@ uv run ascii-painter -w https://picsum.photos/400/300 60
 
 # 클립보드 이미지 사용
 uv run ascii-painter --clip 80 --trim
+
+# 결과를 클립보드에 자동 복사
+uv run ascii-painter image.jpg 70 -a --trim
+
+# 클립보드에서 입력받고 결과도 클립보드에 복사 (완전 자동화!)
+uv run ascii-painter --clip 80 --trim -a
 
 # 웹 이미지와 트림 옵션
 uv run ascii-painter --web https://imgur.com/image.jpg --trim

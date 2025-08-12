@@ -21,6 +21,7 @@ def print_help():
     print("Options:")
     print("  -w, --web     Download image from URL instead of local file")
     print("  --clip, -v    Use image from clipboard (requires WSL/PowerShell)")
+    print("  -a, --auto-copy  Copy ASCII art result to clipboard automatically")
     print("  --color, -c   Enable colored output (not recommended for Slack)")
     print("  --trim, -t    Remove background-only rows and columns for compact output")
     print("  --help, -h    Show this help message")
@@ -44,6 +45,7 @@ def print_help():
     print("  python painter.py image.jpg 70")
     print("  python painter.py -w https://picsum.photos/400/300 60")
     print("  python painter.py --clip 80 --trim")
+    print("  python painter.py image.jpg 70 -a --trim")
     print("  python painter.py --web https://imgur.com/image.jpg --trim")
     print("  python painter.py image.jpg 80 --trim --color")
 
@@ -54,6 +56,7 @@ class ArgumentParser:
     def __init__(self):
         self.use_web = False
         self.use_clipboard = False
+        self.auto_copy = False
         self.use_color = False
         self.use_trim = False
         self.img_source = None
@@ -69,6 +72,7 @@ class ArgumentParser:
         # Parse flags
         self.use_web = '--web' in argv or '-w' in argv
         self.use_clipboard = '--clip' in argv or '-v' in argv
+        self.auto_copy = '--auto-copy' in argv or '-a' in argv
         self.use_color = '--color' in argv or '-c' in argv
         self.use_trim = '--trim' in argv or '-t' in argv
         

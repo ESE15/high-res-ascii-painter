@@ -11,7 +11,7 @@ import os
 from .cli import ArgumentParser
 from .image_loader import load_image
 from .ascii_converter import ASCIIConverter
-from .utils import trim_ascii_art, save_clipboard_image
+from .utils import trim_ascii_art, save_clipboard_image, copy_to_clipboard
 
 
 def main():
@@ -48,9 +48,17 @@ def main():
         if args.use_trim:
             ascii_lines = trim_ascii_art(ascii_lines)
         
+        # Convert to list to allow multiple uses
+        ascii_lines = list(ascii_lines)
+        
         # Output the final result
         for line in ascii_lines:
             print(line)
+        
+        # Copy to clipboard if requested
+        if args.auto_copy:
+            ascii_text = '\n'.join(ascii_lines)
+            copy_to_clipboard(ascii_text)
             
     finally:
         # Clean up temporary file if we created one

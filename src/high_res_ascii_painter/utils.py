@@ -66,6 +66,31 @@ def save_clipboard_image():
         raise RuntimeError("PowerShell not found. This feature requires Windows/WSL environment.")
 
 
+def copy_to_clipboard(text):
+    """
+    Copy text to clipboard using PowerShell (WSL compatible)
+    """
+    # PowerShell command to copy text to clipboard
+    powershell_cmd = [
+        'powershell.exe', '-NoProfile', '-Command',
+        f'Set-Clipboard -Value @"\n{text}\n"@'
+    ]
+    
+    try:
+        # Execute PowerShell command
+        result = subprocess.run(powershell_cmd, capture_output=True, text=True, check=True)
+        print("ASCII art copied to clipboard!")
+        return True
+            
+    except subprocess.CalledProcessError as e:
+        error_msg = e.stderr.strip() if e.stderr else "Unknown PowerShell error"
+        print(f"Warning: Failed to copy to clipboard: {error_msg}")
+        return False
+    except FileNotFoundError:
+        print("Warning: PowerShell not found. Clipboard copy requires Windows/WSL environment.")
+        return False
+
+
 def trim_ascii_art(ascii_lines):
     """Remove background rows and columns from ASCII art for compact output"""
     if not ascii_lines:
