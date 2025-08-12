@@ -340,7 +340,9 @@ git push origin v1.0.0
 
 ### 릴리즈에 포함되는 내용
 
-- `ascii-painter-windows-x64.zip` - Windows 포터블 실행 파일
+- `ascii-painter.exe` - 단일 실행 파일 (바로 실행 가능, 약 23MB)
+- `ascii-painter-windows-x64.zip` - 전체 패키지 (실행 파일 + README)
+- **소스 코드** - GitHub이 자동으로 생성하는 zip/tar.gz 파일
 - 자동 생성된 릴리즈 노트
 - 사용법 및 주요 기능 설명
 - 시스템 요구사항

@@ -52,13 +52,19 @@ jobs:
     - name: Create release assets (if tag push)
       if: startsWith(github.ref, 'refs/tags/')
       run: |
+        # ZIP 파일 생성 (전체 패키지)
         Compress-Archive -Path "dist\windows\*" -DestinationPath "ascii-painter-windows-x64.zip"
+        
+        # 개별 exe 파일 복사 (직접 다운로드용)
+        Copy-Item "dist\windows\ascii-painter.exe" -Destination "ascii-painter.exe"
     
     - name: Create Release (if tag push)
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
-        files: ascii-painter-windows-x64.zip
+        files: |
+          ascii-painter-windows-x64.zip
+          ascii-painter.exe
         name: "ASCII Painter ${{ github.ref_name }}"
         body: |
           ## ASCII Painter ${{ github.ref_name }}
@@ -66,19 +72,28 @@ jobs:
           Slack-Optimized ASCII Art Generator - Windows Portable Executable
           
           ### 다운로드
-          - `ascii-painter-windows-x64.zip` - Windows 10/11 64비트용 포터블 실행 파일
+          - `ascii-painter.exe` - 단일 실행 파일 (바로 실행 가능)
+          - `ascii-painter-windows-x64.zip` - 전체 패키지 (실행 파일 + README)
           
           ### 사용법
           ```cmd
-          # 압축 해제 후 실행
+          # 도움말 보기
           ascii-painter.exe --help
           
-          # 기본 사용
+          # 기본 사용 (이미지 파일)
           ascii-painter.exe image.jpg 70
+          
+          # 웹 이미지 사용
+          ascii-painter.exe -w https://picsum.photos/400/300 60
           
           # 클립보드에서 입력받고 결과도 클립보드에 복사 (완전 자동화!)
           ascii-painter.exe --clip 80 --trim -a
           ```
+          
+          ### 빠른 시작
+          1. `ascii-painter.exe` 다운로드
+          2. 원하는 폴더에 저장
+          3. Command Prompt 또는 PowerShell에서 실행
           
           ### 주요 기능
           - 🖼️ 로컬 이미지 파일 지원
@@ -101,12 +116,18 @@ jobs:
     - name: Upload release assets (manual release)
       if: github.event_name == 'release'
       run: |
+        # ZIP 파일 생성 (전체 패키지)
         Compress-Archive -Path "dist\windows\*" -DestinationPath "ascii-painter-windows-x64.zip"
+        
+        # 개별 exe 파일 복사 (직접 다운로드용)
+        Copy-Item "dist\windows\ascii-painter.exe" -Destination "ascii-painter.exe"
     
     - name: Upload to manual release
       if: github.event_name == 'release'
       uses: softprops/action-gh-release@v1
       with:
-        files: ascii-painter-windows-x64.zip
+        files: |
+          ascii-painter-windows-x64.zip
+          ascii-painter.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
