@@ -312,3 +312,35 @@ ascii-painter.exe --clip 80 --trim -a
 **GitHub Actions를 통한 자동 빌드:**
 - 이 저장소를 GitHub에 푸시하면 자동으로 Windows 실행 파일이 빌드됩니다
 - Actions 탭에서 빌드된 아티팩트를 다운로드할 수 있습니다
+
+**자동 릴리즈:**
+- `v*` 태그를 푸시하면 자동으로 GitHub Release가 생성됩니다
+- Windows 실행 파일이 자동으로 첨부됩니다
+- 릴리즈 생성 스크립트: `./create_release.sh`
+
+## 릴리즈 생성
+
+### 자동 릴리즈 생성
+
+```bash
+# 릴리즈 스크립트 실행
+./create_release.sh
+
+# 또는 수동으로 태그 생성
+git tag -a v1.0.0 -m "Release v1.0.0"
+git push origin v1.0.0
+```
+
+### 릴리즈 프로세스
+
+1. **버전 결정**: [Semantic Versioning](https://semver.org/) 사용 (예: v1.2.3)
+2. **태그 생성**: `./create_release.sh` 실행 또는 수동 태그 생성
+3. **자동 빌드**: GitHub Actions가 Windows 실행 파일 자동 빌드
+4. **릴리즈 생성**: 실행 파일이 첨부된 GitHub Release 자동 생성
+
+### 릴리즈에 포함되는 내용
+
+- `ascii-painter-windows-x64.zip` - Windows 포터블 실행 파일
+- 자동 생성된 릴리즈 노트
+- 사용법 및 주요 기능 설명
+- 시스템 요구사항
