@@ -18,6 +18,18 @@ uv sync
 pip install -e .
 ```
 
+### Windows 포터블 실행 파일 빌드
+```bash
+# 개발 의존성 포함 설치
+uv sync --dev
+
+# Windows 실행 파일 빌드
+uv run python build_windows.py
+
+# 또는 배치 파일 사용 (Windows에서)
+build_windows.bat
+```
+
 ## 사용법
 
 ### 쉘 스크립트 사용 (가장 간편)
@@ -55,6 +67,14 @@ ascii-painter -w <image_url> [width] [options]
 ```bash
 uv tool install .
 ascii-painter <image_file> [width] [options]
+```
+
+### Windows 포터블 실행 파일 사용
+```cmd
+# Windows Command Prompt 또는 PowerShell에서
+ascii-painter.exe <image_file> [width] [options]
+ascii-painter.exe -w <image_url> [width] [options]
+ascii-painter.exe --clip [width] [options]
 ```
 
 ## 인수
@@ -189,3 +209,80 @@ uv run ascii-painter --web https://imgur.com/image.jpg --trim
 # 모든 옵션 사용
 uv run ascii-painter image.jpg 80 --trim --color
 ```
+
+### Windows 포터블 실행 파일 사용
+```cmd
+# 로컬 이미지 파일 사용
+ascii-painter.exe image.jpg 70
+
+# 웹 이미지 URL 사용
+ascii-painter.exe -w https://picsum.photos/400/300 60
+
+# 클립보드 이미지 사용
+ascii-painter.exe --clip 80 --trim
+
+# 결과를 클립보드에 자동 복사
+ascii-painter.exe image.jpg 70 -a --trim
+
+# 클립보드에서 입력받고 결과도 클립보드에 복사 (완전 자동화!)
+ascii-painter.exe --clip 80 --trim -a
+
+# 웹 이미지와 트림 옵션
+ascii-painter.exe --web https://imgur.com/image.jpg --trim
+
+# 모든 옵션 사용
+ascii-painter.exe image.jpg 80 --trim --color
+```
+
+## Windows 포터블 실행 파일
+
+### 빌드 방법
+
+1. **개발 의존성 설치**:
+   ```bash
+   uv sync --dev
+   ```
+
+2. **실행 파일 빌드**:
+   ```bash
+   # Linux/WSL에서 빌드
+   uv run python build_windows.py
+   
+   # Windows에서 배치 파일 사용
+   build_windows.bat
+   ```
+
+3. **빌드 결과**:
+   - `dist/windows/ascii-painter.exe` (약 23MB)
+   - `dist/windows/README.md` (사용법 설명)
+
+### 특징
+
+- **포터블**: Python 설치 없이 실행 가능
+- **단일 파일**: 모든 의존성이 포함된 하나의 .exe 파일
+- **클립보드 지원**: PowerShell을 통한 완전한 클립보드 기능
+- **크로스 플랫폼 빌드**: Linux/WSL에서 Windows용 실행 파일 생성 가능
+
+### Windows에서 사용법
+
+1. **다운로드**: `ascii-painter.exe` 파일을 원하는 폴더에 복사
+2. **실행**: Command Prompt 또는 PowerShell에서 실행
+3. **PATH 추가** (선택사항): 어디서든 실행하려면 PATH에 추가
+
+```cmd
+# 기본 사용법
+ascii-painter.exe --help
+
+# 완전 자동화 워크플로우 (가장 편리!)
+# 1. 이미지 복사 (Ctrl+C 또는 Win+Shift+S로 스크린샷)
+# 2. 실행:
+ascii-painter.exe --clip 80 --trim -a
+# 3. Slack에 붙여넣기 (Ctrl+V + 코드 블록 ```)
+```
+
+### 빌드 요구사항
+
+- Python 3.10+
+- uv 패키지 매니저
+- PyInstaller (자동 설치됨)
+- 충분한 디스크 공간 (빌드 과정에서 임시 파일 생성)
