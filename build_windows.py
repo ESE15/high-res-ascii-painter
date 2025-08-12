@@ -37,23 +37,14 @@ def build_windows_executable():
             shutil.rmtree(dir_name)
             print(f"Cleaned up {dir_name} directory")
     
-    # PyInstaller 명령어 구성
+    # PyInstaller 명령어 구성 (spec 파일 사용)
     pyinstaller_cmd = [
         'pyinstaller',
-        '--onefile',  # 단일 실행 파일로 생성
-        '--console',  # 콘솔 애플리케이션
-        '--name', 'ascii-painter',  # 실행 파일 이름
         '--distpath', 'dist/windows',  # 출력 디렉토리
         '--workpath', 'build/windows',  # 임시 빌드 디렉토리
-        '--specpath', 'build',  # spec 파일 위치
         '--clean',  # 빌드 전 정리
         '--noconfirm',  # 확인 없이 덮어쓰기
-        # 숨겨진 import 추가 (필요한 경우)
-        '--hidden-import', 'PIL._tkinter_finder',
-        '--hidden-import', 'numpy',
-        '--hidden-import', 'requests',
-        # 메인 스크립트
-        'src/high_res_ascii_painter/painter.py'
+        'ascii-painter.spec'  # spec 파일 사용
     ]
     
     try:
