@@ -1,6 +1,6 @@
 [project]
 name = "high-res-ascii-painter"
-version = "0.1.0"
+version = "0.1.1"
 description = "Slack-Optimized ASCII Art Generator"
 readme = "README.md"
 authors = [
