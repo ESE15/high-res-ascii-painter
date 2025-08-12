@@ -11,6 +11,7 @@ def print_help():
     print("Slack-Optimized ASCII Art Generator")
     print("Usage: python painter.py <image_file> [width] [options]")
     print("       python painter.py -w <image_url> [width] [options]")
+    print("       python painter.py --clip [width] [options]")
     print()
     print("Arguments:")
     print("  image_file    Path to the input image file")
@@ -19,6 +20,7 @@ def print_help():
     print()
     print("Options:")
     print("  -w, --web     Download image from URL instead of local file")
+    print("  --clip, -v    Use image from clipboard (requires WSL/PowerShell)")
     print("  --color, -c   Enable colored output (not recommended for Slack)")
     print("  --trim, -t    Remove background-only rows and columns for compact output")
     print("  --help, -h    Show this help message")
@@ -33,9 +35,15 @@ def print_help():
     print("  - Use public image hosting services (imgur, picsum.photos, etc.)")
     print("  - Some websites may block automated requests")
     print()
+    print("Clipboard Notes:")
+    print("  - Requires WSL/Windows environment with PowerShell")
+    print("  - Copy an image to clipboard before running with --clip")
+    print("  - Temporary files are automatically cleaned up")
+    print()
     print("Examples:")
     print("  python painter.py image.jpg 70")
     print("  python painter.py -w https://picsum.photos/400/300 60")
+    print("  python painter.py --clip 80 --trim")
     print("  python painter.py --web https://imgur.com/image.jpg --trim")
     print("  python painter.py image.jpg 80 --trim --color")
 
@@ -45,6 +53,7 @@ class ArgumentParser:
     
     def __init__(self):
         self.use_web = False
+        self.use_clipboard = False
         self.use_color = False
         self.use_trim = False
         self.img_source = None
@@ -59,13 +68,21 @@ class ArgumentParser:
         
         # Parse flags
         self.use_web = '--web' in argv or '-w' in argv
+        self.use_clipboard = '--clip' in argv or '-v' in argv
         self.use_color = '--color' in argv or '-c' in argv
         self.use_trim = '--trim' in argv or '-t' in argv
         
         # Remove flags from argv to get positional arguments
         filtered_argv = [arg for arg in argv if not arg.startswith('-')]
         
-        if self.use_web:
+        if self.use_clipboard:
+            # For clipboard mode, no image source needed, just optional width
+            self.img_source = None  # Will be handled by clipboard function
+            try:
+                self.width = int(filtered_argv[1]) if len(filtered_argv) > 1 else DEFAULT_WIDTH
+            except (IndexError, ValueError):
+                self.width = DEFAULT_WIDTH
+        elif self.use_web:
             # For web mode, expect URL as first argument after script name
             if len(filtered_argv) < 2:
                 print("Error: URL required when using -w/--web option")

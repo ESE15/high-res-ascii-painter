@@ -66,6 +66,7 @@ ascii-painter <image_file> [width] [options]
 ## 옵션
 
 - `-w, --web`: 로컬 파일 대신 URL에서 이미지 다운로드
+- `--clip, -v`: 클립보드의 이미지를 사용 (WSL/Windows 환경 필요)
 - `--color, -c`: 컬러 출력 활성화 (Slack에서는 권장하지 않음)
 - `--trim, -t`: 배경 전용 행과 열을 제거하여 컴팩트한 출력
 - `--help, -h`: 도움말 메시지 표시
@@ -81,6 +82,13 @@ ascii-painter <image_file> [width] [options]
 - Slack 파일 URL은 인증이 필요하므로 직접 작동하지 않음
 - 공개 이미지 호스팅 서비스 사용 (imgur, picsum.photos 등)
 - 일부 웹사이트에서는 자동화된 요청을 차단할 수 있음
+
+## 클립보드 기능 주의사항
+
+- WSL/Windows 환경에서만 작동 (PowerShell 필요)
+- 사용 전에 이미지를 클립보드에 복사해야 함
+- 임시 파일은 자동으로 정리됨
+- 스크린샷이나 복사된 이미지 모두 지원
 
 ## 출력 예시
 
@@ -135,6 +143,9 @@ ascii-painter <image_file> [width] [options]
 # 웹 이미지 URL 사용
 ./ascii-painter.sh -w https://picsum.photos/400/300 60
 
+# 클립보드 이미지 사용
+./ascii-painter.sh --clip 80 --trim
+
 # 웹 이미지와 트림 옵션
 ./ascii-painter.sh --web https://imgur.com/image.jpg --trim
 
@@ -149,6 +160,9 @@ uv run ascii-painter image.jpg 70
 
 # 웹 이미지 URL 사용
 uv run ascii-painter -w https://picsum.photos/400/300 60
+
+# 클립보드 이미지 사용
+uv run ascii-painter --clip 80 --trim
 
 # 웹 이미지와 트림 옵션
 uv run ascii-painter --web https://imgur.com/image.jpg --trim

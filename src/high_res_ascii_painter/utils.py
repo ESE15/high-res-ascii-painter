@@ -2,6 +2,10 @@
 Utility functions for ASCII art generator
 """
 
+import os
+import tempfile
+import subprocess
+from datetime import datetime
 from .config import DENSITY_STRING
 
 
@@ -13,6 +17,53 @@ def get_ansi_color(r, g, b):
 def reset_color():
     """Reset to default color"""
     return '\033[0m'
+
+
+def save_clipboard_image():
+    """
+    Save clipboard image to a temporary file using PowerShell (WSL compatible)
+    Returns the path to the saved image file
+    """
+    # Create temporary file
+    temp_dir = tempfile.gettempdir()
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    temp_filename = f"clipboard_image_{timestamp}.png"
+    temp_path = os.path.join(temp_dir, temp_filename)
+    
+    # Convert to Windows path for PowerShell
+    try:
+        # Try wslpath if available (WSL environment)
+        result = subprocess.run(['wslpath', '-w', temp_path], 
+                              capture_output=True, text=True, check=True)
+        win_path = result.stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        # Fallback: assume we're not in WSL or wslpath not available
+        win_path = temp_path.replace('/', '\\')
+    
+    # PowerShell command to save clipboard image
+    powershell_cmd = [
+        'powershell.exe', '-NoProfile', '-Command',
+        f"$img = Get-Clipboard -Format Image; "
+        f"if (-not $img) {{ Write-Error 'No image found in clipboard'; exit 1 }}; "
+        f"$img.Save('{win_path}',[System.Drawing.Imaging.ImageFormat]::Png)"
+    ]
+    
+    try:
+        # Execute PowerShell command
+        result = subprocess.run(powershell_cmd, capture_output=True, text=True, check=True)
+        
+        # Check if file was created
+        if os.path.exists(temp_path):
+            print(f"Clipboard image saved to: {temp_path}")
+            return temp_path
+        else:
+            raise FileNotFoundError("Failed to save clipboard image")
+            
+    except subprocess.CalledProcessError as e:
+        error_msg = e.stderr.strip() if e.stderr else "Unknown PowerShell error"
+        raise RuntimeError(f"Failed to get image from clipboard: {error_msg}")
+    except FileNotFoundError:
+        raise RuntimeError("PowerShell not found. This feature requires Windows/WSL environment.")
 
 
 def trim_ascii_art(ascii_lines):
