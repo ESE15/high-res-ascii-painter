@@ -6,7 +6,7 @@ import sys
 import requests
 from PIL import Image
 from io import BytesIO
-from config import WEB_HEADERS, DEFAULT_TIMEOUT
+from .config import WEB_HEADERS, DEFAULT_TIMEOUT
 
 
 def download_image_from_url(url):

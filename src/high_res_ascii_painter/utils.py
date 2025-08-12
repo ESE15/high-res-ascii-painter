@@ -2,7 +2,7 @@
 Utility functions for ASCII art generator
 """
 
-from config import DENSITY_STRING
+from .config import DENSITY_STRING
 
 
 def get_ansi_color(r, g, b):

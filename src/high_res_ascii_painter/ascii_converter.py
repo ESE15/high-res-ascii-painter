@@ -4,14 +4,14 @@ ASCII art conversion functionality
 
 import numpy as np
 from PIL import Image, ImageEnhance
-from config import (
+from .config import (
     DENSITY_STRING, 
     CONTRAST_FACTOR, 
     BRIGHTNESS_OFFSET, 
     ASPECT_RATIO_CORRECTION, 
     GAMMA_CORRECTION
 )
-from utils import get_ansi_color, reset_color
+from .utils import get_ansi_color, reset_color
 
 
 class ASCIIConverter:

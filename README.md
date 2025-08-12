@@ -3,15 +3,58 @@
 Slack-Optimized ASCII Art Generator
 
 ## 설치
+
+### uv 사용 (권장)
 ```bash
-pip install -r requirements.txt
+# uv가 설치되어 있지 않은 경우
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 프로젝트 설치
+uv sync
+```
+
+### pip 사용
+```bash
+pip install -e .
 ```
 
 ## 사용법
 
+### 쉘 스크립트 사용 (가장 간편)
 ```bash
-python painter.py <image_file> [width] [options]
-python painter.py -w <image_url> [width] [options]
+# 프로젝트 디렉토리에서 실행
+./ascii-painter.sh <image_file> [width] [options]
+
+# 다른 디렉토리에서 절대 경로로 실행
+/path/to/high-res-ascii-painter/ascii-painter.sh <image_file> [width] [options]
+```
+
+#### PATH에 추가하여 어디서든 실행 (선택사항)
+```bash
+# ~/.bashrc 또는 ~/.zshrc에 추가
+export PATH="/path/to/high-res-ascii-painter:$PATH"
+
+# 그 후 어디서든 실행 가능
+ascii-painter.sh <image_file> [width] [options]
+```
+
+### uv run 사용
+```bash
+uv run ascii-painter <image_file> [width] [options]
+uv run ascii-painter -w <image_url> [width] [options]
+```
+
+### 가상환경 활성화 후 사용
+```bash
+source .venv/bin/activate
+ascii-painter <image_file> [width] [options]
+ascii-painter -w <image_url> [width] [options]
+```
+
+### 전역 설치 후 사용 (선택사항)
+```bash
+uv tool install .
+ascii-painter <image_file> [width] [options]
 ```
 
 ## 인수
@@ -81,16 +124,35 @@ python painter.py -w <image_url> [width] [options]
 
 ## 사용 예시
 
+### 쉘 스크립트 사용 (가장 간편)
 ```bash
-# 로컬 이미지 파일 사용
-python painter.py image.jpg 70
+# 프로젝트 디렉토리에서 실행
+./ascii-painter.sh image.jpg 70
+
+# 다른 디렉토리에서 절대 경로로 실행 (파일 경로는 현재 디렉토리 기준)
+/path/to/high-res-ascii-painter/ascii-painter.sh image.jpg 70
 
 # 웹 이미지 URL 사용
-python painter.py -w https://picsum.photos/400/300 60
+./ascii-painter.sh -w https://picsum.photos/400/300 60
 
 # 웹 이미지와 트림 옵션
-python painter.py --web https://imgur.com/image.jpg --trim
+./ascii-painter.sh --web https://imgur.com/image.jpg --trim
 
 # 모든 옵션 사용
-python painter.py image.jpg 80 --trim --color
+./ascii-painter.sh image.jpg 80 --trim --color
+```
+
+### uv run 사용
+```bash
+# 로컬 이미지 파일 사용
+uv run ascii-painter image.jpg 70
+
+# 웹 이미지 URL 사용
+uv run ascii-painter -w https://picsum.photos/400/300 60
+
+# 웹 이미지와 트림 옵션
+uv run ascii-painter --web https://imgur.com/image.jpg --trim
+
+# 모든 옵션 사용
+uv run ascii-painter image.jpg 80 --trim --color
 ```

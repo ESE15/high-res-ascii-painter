@@ -3,7 +3,7 @@ Command line interface for ASCII art generator
 """
 
 import sys
-from config import DEFAULT_WIDTH
+from .config import DEFAULT_WIDTH
 
 
 def print_help():

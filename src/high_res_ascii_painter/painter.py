@@ -7,10 +7,10 @@ Supports both local files and web URLs with various customization options.
 """
 
 import sys
-from cli import ArgumentParser
-from image_loader import load_image
-from ascii_converter import ASCIIConverter
-from utils import trim_ascii_art
+from .cli import ArgumentParser
+from .image_loader import load_image
+from .ascii_converter import ASCIIConverter
+from .utils import trim_ascii_art
 
 
 def main():
