@@ -14,7 +14,6 @@ on:
 # GitHub Actions 권한 설정
 permissions:
   contents: write  # 릴리즈 생성 및 파일 업로드 권한
-  releases: write  # 릴리즈 관리 권한
 
 jobs:
   build-windows:
