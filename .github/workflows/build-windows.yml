@@ -69,7 +69,7 @@ jobs:
         echo "Repository: ${{ github.repository }}"
         echo "Actor: ${{ github.actor }}"
         echo "Files to upload:"
-        ls -la ascii-painter*
+        Get-ChildItem ascii-painter* | Format-Table Name, Length, LastWriteTime
     
     - name: Create Release (if tag push)
       if: startsWith(github.ref, 'refs/tags/')
