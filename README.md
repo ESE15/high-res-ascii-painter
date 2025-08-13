@@ -318,6 +318,12 @@ ascii-painter.exe --clip 80 --trim -a
 - Windows 실행 파일이 자동으로 첨부됩니다
 - 릴리즈 생성 스크립트: `./create_release.sh`
 
+**GitHub Actions 권한 설정:**
+릴리즈 생성이 실패하는 경우 GitHub 저장소 설정을 확인하세요:
+1. Repository Settings → Actions → General
+2. "Workflow permissions"에서 "Read and write permissions" 선택
+3. "Allow GitHub Actions to create and approve pull requests" 체크
+
 ## 릴리즈 생성
 
 ### 자동 릴리즈 생성
